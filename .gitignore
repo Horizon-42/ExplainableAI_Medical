@@ -1,3 +1,7 @@
 .vscode
 datasets
 .Ds_Store
+
+*.pth
+
+*.jpg
