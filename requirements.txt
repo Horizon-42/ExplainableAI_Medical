@@ -1,0 +1,48 @@
+# Requirements for Explainable AI Medical Image Classification
+# Python 3.10+ recommended
+# 
+# Install with: pip install -r requirements.txt
+
+# =============================================================
+# Core Deep Learning
+# =============================================================
+torch>=2.0.0
+torchvision>=0.15.0
+
+# =============================================================
+# Data Processing & Scientific Computing
+# =============================================================
+numpy>=1.24.0,<2.0.0          # Keep numpy<2 for captum compatibility
+pandas>=2.0.0
+pillow>=9.0.0
+
+# =============================================================
+# Machine Learning & Metrics
+# =============================================================
+scikit-learn>=1.2.0
+scikit-image>=0.20.0          # For mark_boundaries in LIME visualization
+
+# =============================================================
+# Visualization
+# =============================================================
+matplotlib>=3.6.0
+seaborn>=0.12.0
+
+# =============================================================
+# Computer Vision
+# =============================================================
+opencv-python>=4.7.0,<4.10.0  # Compatible with numpy<2
+
+# =============================================================
+# Explainable AI (XAI) Libraries
+# =============================================================
+lime>=0.2.0                   # Local Interpretable Model-agnostic Explanations
+shap>=0.45.0,<0.50.0          # SHAP values (use <0.50 for numpy<2 compatibility)
+captum>=0.7.0                 # PyTorch XAI library (LRP, Integrated Gradients, etc.)
+
+# =============================================================
+# Optional: Jupyter Support
+# =============================================================
+jupyter>=1.0.0
+ipywidgets>=8.0.0
+
