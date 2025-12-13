@@ -1,64 +1,123 @@
-# Data analysis
-## Overview
-- Orignal Dataset
-    | Dataset | Total | Normal | Pneumonia | Normal % | Pneumonia % | Ratio |
-    | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-    | **Train** | 5216 | 1341 | 3875 | 25.7% | 74.3% | 1:2.89 |
-    | **Validation** | 16 | 8 | 8 | 50.0% | 50.0% | 1:1.00 |
-    | **Test** | 624 | 234 | 390 | 37.5% | 62.5% | 1:1.67 |
-The validation set of original dataset is too small, to address this problem, we combine the train/val dataset and divide them with ratio **0.8:0.2**.
-- Redistributed Dataset
-    | Dataset | Total | Normal | Pneumonia | Normal % | Pneumonia % | Ratio |
-    | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-    | **Train** | 4185 | 1079 | 3106 | 25.8% | 74.2% | 1:2.88 |
-    | **Validation** | 1047 | 270 | 777 | 25.8% | 74.2% | 1:2.88 |
-    | **Test** | 624 | 234 | 390 | 37.5% | 62.5% | 1:1.67 |
+---
+marp: true
+size: 16:9
+style: |
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+---
+
+# Data Analysis
+
+---
+
+## Original Dataset
+
+| Dataset | Total | Normal | Pneumonia | Normal % | Pneumonia % | Ratio |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Train** | 5216 | 1341 | 3875 | 25.7% | 74.3% | 1:2.89 |
+| **Validation** | 16 | 8 | 8 | 50.0% | 50.0% | 1:1.00 |
+| **Test** | 624 | 234 | 390 | 37.5% | 62.5% | 1:1.67 |
+
+Validation set is too small (only 16 samples)
+
+---
+
+## Redistributed Dataset
+
+Combine train/val and split with ratio **0.8:0.2**
+
+| Dataset | Total | Normal | Pneumonia | Normal % | Pneumonia % | Ratio |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Train** | 4185 | 1079 | 3106 | 25.8% | 74.2% | 1:2.88 |
+| **Validation** | 1047 | 270 | 777 | 25.8% | 74.2% | 1:2.88 |
+| **Test** | 624 | 234 | 390 | 37.5% | 62.5% | 1:1.67 |
+
+---
 
 ## Leakage Check
-- Train-Val overlap: 0
-- Train-Test overlap: 0
-- Val-Test overlap: 0
-No data leakage detected!
+
+| Check | Result |
+| :--- | :---: |
+| Train-Val overlap | 0 ✅ |
+| Train-Test overlap | 0 ✅ |
+| Val-Test overlap | 0 ✅ |
+
+**No data leakage detected!**
 
 ---
 
 ## Class Distribution
-![alt text](class_distribution.png)
-Two class is imbalance, so we need **oversample** during model finetuning.
+
+![h:450 center](class_distribution.png)
+
+Classes are imbalanced, Use **oversampling** during training
 
 ---
+
 ## Pixel Intensity Analysis
-![alt text](pixel_intensity.png)
-The intensity distributions differ across the training, validation, and test datasets. Therefore, **intensity-** and **contrast-** based data augmentation is necessary to improve the model’s ability to generalize to images from different datasets.
+
+![w:1000 center](pixel_intensity.png)
+
+Use **intensity/contrast augmentation** to improve generalization
 
 ---
 
-## Sample Visulization
-![alt text](train_samples.png)
-![alt text](test_samples.png)
-Pneumonia images has bigger opacity: **Ground-Glass Opacity**.
+## Sample Visualization (Train)
+
+![w:1000 center](train_samples.png)
 
 ---
-![alt text](<figures/Train Set_average_images.png>)
-![alt text](<figures/Test Set_average_images.png>)
-The average images indicate that the most prominent differences are concentrated in the lung regions of the chest, where pneumonia images exhibit higher opacity.
+
+## Sample Visualization (Test)
+
+![w:1000 center](test_samples.png)
+
+Pneumonia images show higher opacity: **Ground-Glass Opacity**
+
+---
+
+## Average Image Analysis (Train)
+
+![w:1000 center](<figures/Train Set_average_images.png>)
+
+---
+
+## Average Image Analysis (Test)
+
+![w:1000 center](<figures/Test Set_average_images.png>)
+
+Most differences are in **lung regions** where pneumonia shows higher opacity
 
 ---
 
 # Model 
+---
 ## Model Setup
 - Base Model: Resnet 18.
-- Loss Function: 
-- Data augmentation: 
-- Oversample: 
+- Loss Function: **BCEWithLogitsLoss**
+- Optimizer: Adam
+- Learning Rate Schedule: **ReduceLROnPlateau**
+- Early Stop: quit training after 7 epoch no improvement.
+- Oversample: Use **WeightedRandomSampler** for training set.
+
+---
 
 ## Cross Validation 
 Run 5-Fold cross validation to pick best augmentation hyperparameters.
+![alt text](cv_results.png)
 
-### Comparision 
+---
+
+## Comparison 
+|Model|
 
 
+
+---
 # Explain
+---
 ## Grad Cam
 
 ## LIME

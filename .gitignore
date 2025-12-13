@@ -5,3 +5,5 @@ datasets
 *.pth
 
 *.jpg
+
+*.pdf
