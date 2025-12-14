@@ -111,7 +111,15 @@ Run 5-Fold cross validation to pick best augmentation hyperparameters.
 ---
 
 ## Comparison 
-|Model|
+| Configuration | Accuracy | Recall | Specificity | F1 Score | AUC |
+|---------------|----------|--------|-------------|----------|-----|
+| Baseline (jitter=0.1, No crop) | 0.8606 | 0.9949 | 0.6368 | 0.8992 | 0.9662 |
+| jitter=0.3, crop=0.08-1.0 | **0.9503** | 0.9949 | **0.8761** | **0.9616** | **0.9923** |
+| jitter=0.2, crop=0.5-1.0 | 0.9391 | 0.9949 | 0.8462 | 0.9533 | 0.9886 |
+
+**Key Observations:**
+- All models achieve the same high Recall(0.9949), detecting nearly all Pneumonia cases
+- The main improvement is in **Specificity** (Normal class detection): 0.6368 to 0.8761
 
 
 
