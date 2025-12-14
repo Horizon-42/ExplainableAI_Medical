@@ -36,6 +36,41 @@ Classification Report:
    macro avg       0.96      0.94      0.95       624
 weighted avg       0.95      0.95      0.95       624
 
+=== FINAL TEST METRICS ===
+Test Accuracy: 0.9583
+Recall     : 0.9872
+Specificity: 0.9103
+F1 Score   : 0.9673
+AUC        : 0.9923
+
+Classification Report:
+              precision    recall  f1-score   support
+
+      Normal       0.98      0.91      0.94       234
+   Pneumonia       0.95      0.99      0.97       390
+
+    accuracy                           0.96       624
+   macro avg       0.96      0.95      0.95       624
+weighted avg       0.96      0.96      0.96       624
+
+=== FINAL TEST METRICS ===
+batch size 64
+Test Accuracy: 0.9631
+Recall     : 0.9718
+Specificity: 0.9487
+F1 Score   : 0.9706
+AUC        : 0.9912
+
+Classification Report:
+              precision    recall  f1-score   support
+
+      Normal       0.95      0.95      0.95       234
+   Pneumonia       0.97      0.97      0.97       390
+
+    accuracy                           0.96       624
+   macro avg       0.96      0.96      0.96       624
+weighted avg       0.96      0.96      0.96       624
+
 
 # jitter 0.2, random resize crop 0.5 to 1
 === FINAL TEST METRICS ===
@@ -54,6 +89,42 @@ Classification Report:
     accuracy                           0.94       624
    macro avg       0.95      0.92      0.93       624
 weighted avg       0.94      0.94      0.94       624
+
+=== FINAL TEST METRICS ===
+Test Accuracy: 0.9247
+Recall     : 0.9949
+Specificity: 0.8077
+F1 Score   : 0.9429
+AUC        : 0.9831
+
+Classification Report:
+              precision    recall  f1-score   support
+
+      Normal       0.99      0.81      0.89       234
+   Pneumonia       0.90      0.99      0.94       390
+
+    accuracy                           0.92       624
+   macro avg       0.94      0.90      0.92       624
+weighted avg       0.93      0.92      0.92       624
+
+Batch size 64
+=== FINAL TEST METRICS ===
+
+Test Accuracy: 0.9519
+Recall     : 0.9923
+Specificity: 0.8846
+F1 Score   : 0.9627
+AUC        : 0.9890
+
+Classification Report:
+              precision    recall  f1-score   support
+
+      Normal       0.99      0.88      0.93       234
+   Pneumonia       0.93      0.99      0.96       390
+
+    accuracy                           0.95       624
+   macro avg       0.96      0.94      0.95       624
+weighted avg       0.95      0.95      0.95       624
 
 ---
 
