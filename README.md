@@ -1,0 +1,4 @@
+- **best_bal_model.pth**: Model with best balanced accuracy, trained with best hyper-parameters from cross validation.
+- **best_ins_model.pth**: Model trained with wider random crop range and jitter ratio, has better performance on **normal images**.
+- explainable_ai_pipeline.ipynb: Whole pipeline include **Finetune, Explaination and Comparsion**.
+- explainable_ai_report.pdf: Final Report.
