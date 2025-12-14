@@ -112,8 +112,12 @@ Run 5-Fold cross validation to pick best augmentation hyperparameters.
 ![w:1100 center](training_combined.png)
 
 ---
+### Confusion Matrix
+![alt text](confusion_matrix.png)
 
-## Comparison 
+---
+
+## Comparison To Baseline
 | Configuration | Accuracy | Recall | Specificity | F1 Score | AUC |
 |---------------|----------|--------|-------------|----------|-----|
 | Baseline (jitter=0.1, No crop) | 0.8606 | 0.9949 | 0.6368 | 0.8992 | 0.9662 |
