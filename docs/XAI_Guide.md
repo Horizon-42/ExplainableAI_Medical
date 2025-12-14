@@ -161,7 +161,39 @@ cam = cam_generator.generate(input_image)
 | **Score-CAM** | Uses activation scores as weights | Gradient-free, more stable |
 | **Eigen-CAM** | Uses principal components | Class-agnostic |
 
-### 3.5 Grad-CAM Implementation
+### 3.5 Grad-CAM (Gradient-weighted Class Activation Mapping)
+
+**Grad-CAM** generalizes CAM to work with any CNN architecture, removing the requirement for a Global Average Pooling layer. It uses the gradients of the target concept flowing into the final convolutional layer to produce a coarse localization map.
+
+#### Mathematical Formulation
+
+To obtain the class-discriminative localization map $L_{Grad-CAM}^c$ for a class $c$:
+
+1.  **Compute Gradients**: Calculate the gradient of the score for class $c$, $y^c$, with respect to the feature map activations $A^k$ of a convolutional layer:
+    $$ \frac{\partial y^c}{\partial A^k} $$
+
+2.  **Global Average Pooling (Neuron Importance)**: These gradients are global-average-pooled to obtain the neuron importance weights $\alpha_k^c$:
+    $$ \alpha_k^c = \frac{1}{Z} \sum_i \sum_j \frac{\partial y^c}{\partial A_{ij}^k} $$
+    This weight $\alpha_k^c$ captures the "importance" of feature map $k$ for a target class $c$.
+
+3.  **Weighted Combination**: Perform a weighted combination of forward activation maps, followed by a ReLU:
+    $$ L_{Grad-CAM}^c = ReLU\left(\sum_k \alpha_k^c A^k\right) $$
+    
+    *   **ReLU** is applied because we are only interested in features that have a *positive* influence on the class of interest. Negative pixels are likely to belong to other categories.
+
+#### Interpreting the Heatmap
+
+The resulting heatmap $L_{Grad-CAM}^c$ provides a visual explanation of the model's decision:
+
+*   **Intensity**: The value at each pixel represents the strength of the correlation between that region and the target class.
+    *   **Hot Areas (Red/Yellow)**: These regions are highly important. The model detected features here that strongly increased the score for the target class (e.g., "lung opacity" for Pneumonia).
+    *   **Cold Areas (Blue/Black)**: These regions had little to no positive contribution to the prediction.
+*   **Class Specificity**: Grad-CAM is class-specific. If an image contains both a Cat and a Dog:
+    *   Visualizing "Cat" will highlight the cat's ears/whiskers.
+    *   Visualizing "Dog" will highlight the dog's snout/eyes.
+*   **Resolution**: The heatmap is coarse (low resolution) because it comes from the deeper layers of the CNN (e.g., $7 \times 7$ or $14 \times 14$), and is then upsampled to the original image size.
+
+### 3.6 Grad-CAM Implementation
 
 ```python
 class GradCAM:
@@ -210,7 +242,7 @@ class GradCAM:
         return cam.squeeze().cpu().numpy()
 ```
 
-### 3.6 Pros and Cons
+### 3.7 Pros and Cons
 
 | Pros | Cons |
 |------|------|
@@ -272,7 +304,7 @@ Step 6: Explanation
 
 LIME solves the following optimization:
 
-$$\xi(x) = \argmin_{g \in G} \mathcal{L}(f, g, \pi_x) + \Omega(g)$$
+$$ \xi(x) = \operatorname*{argmin}_{g \in G} \mathcal{L}(f, g, \pi_x) + \Omega(g) $$
 
 Where:
 - $f$ = Original model (black box)
@@ -280,6 +312,26 @@ Where:
 - $\pi_x$ = Proximity measure (kernel) around sample x
 - $\mathcal{L}$ = Loss function measuring fidelity
 - $\Omega(g)$ = Complexity penalty
+
+#### Understanding the Weights
+
+It is crucial to distinguish between the two types of weights in LIME:
+
+1. **Similarity Weight ($\pi_x$)**:
+   - **What**: A weight assigned to each *perturbed sample*.
+   - **How**: Calculated using a kernel function (e.g., Exponential Kernel) based on distance from the original image.
+   - **Role**: Tells the linear model to prioritize samples that look like the original image.
+   - **Formula**: $\pi_x(z) = \exp(-D(x,z)^2/\sigma^2)$
+
+2. **Feature Weight ($w$)**:
+   - **What**: A coefficient assigned to each *superpixel*.
+   - **How**: Learned by the linear regression model.
+   - **Role**: This **IS the explanation**. It indicates how much a superpixel contributes to the prediction.
+   - **Interpretation**: Positive = Supports prediction; Negative = Opposes prediction.
+
+The linear model is trained by minimizing the **Weighted Squared Loss**:
+
+$$ \mathcal{L}(f, g, \pi_x) = \sum_{z} \underbrace{\pi_x(z)}_{\text{Similarity Weight}} \cdot \left( f(z) - \underbrace{w \cdot z}_{\text{Linear Pred}} \right)^2 $$
 
 ### 4.5 Implementation
 
