@@ -107,6 +107,11 @@ Run 5-Fold cross validation to pick best augmentation hyperparameters.
 ![alt text](cv_results.png)
 
 ---
+## Training
+
+![w:1100 center](training_combined.png)
+
+---
 
 ## Comparison 
 | Configuration | Accuracy | Recall | Specificity | F1 Score | AUC |
@@ -125,7 +130,7 @@ Run 5-Fold cross validation to pick best augmentation hyperparameters.
 # Explain
 ---
 ## Grad Cam
-
+---
 ## LIME
-
-## 
+---
+## Metrics 
