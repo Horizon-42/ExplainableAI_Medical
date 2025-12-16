@@ -20,19 +20,9 @@ style: |
 
 ---
 
-## Original Dataset
-
-| Dataset | Total | Normal | Pneumonia | Normal % | Pneumonia % | Ratio |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Train** | 5216 | 1341 | 3875 | 25.7% | 74.3% | 1:2.89 |
-| **Validation** | 16 | 8 | 8 | 50.0% | 50.0% | 1:1.00 |
-| **Test** | 624 | 234 | 390 | 37.5% | 62.5% | 1:1.67 |
+## Redistributed Dataset
 
 Validation set is too small (only 16 samples)
-
----
-
-## Redistributed Dataset
 
 Combine train/val and split with ratio **0.8:0.2**
 
@@ -42,15 +32,7 @@ Combine train/val and split with ratio **0.8:0.2**
 | **Validation** | 1047 | 270 | 777 | 25.8% | 74.2% | 1:2.88 |
 | **Test** | 624 | 234 | 390 | 37.5% | 62.5% | 1:1.67 |
 
----
-
-## Leakage Check
-
-| Train-Val | Train-Test | Val-Test |
-| :---: | :---: | :---: |
-| 0 ✅ | 0 ✅ | 0 ✅ |
-
-**No data leakage detected!**
+**Leakage Check** Pass!
 
 ---
 
@@ -67,20 +49,6 @@ Classes are imbalanced, Use **oversampling** during training
 ![w:1000 center](pixel_intensity.png)
 
 Use **intensity/contrast augmentation** to improve generalization
-
----
-
-## Sample Visualization (Train)
-
-![w:1000 center](train_samples.png)
-
----
-
-## Sample Visualization (Test)
-
-![w:1000 center](test_samples.png)
-
-Pneumonia images show higher opacity: **Ground-Glass Opacity**
 
 ---
 
