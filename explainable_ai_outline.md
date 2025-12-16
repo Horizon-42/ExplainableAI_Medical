@@ -44,14 +44,6 @@ Classes are imbalanced, Use **oversampling** during training
 
 ---
 
-## Pixel Intensity Analysis
-
-![w:1000 center](pixel_intensity.png)
-
-Use **intensity/contrast augmentation** to improve generalization
-
----
-
 ## Average Image Analysis (Train)
 
 ![w:1000 center](<figures/Train Set_average_images.png>)
